@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Samurai Swap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <div class="container-fluid overflow-hidden p-4 text-center">
+
+<h1>ASM to BIN</h1>
+<br>
+
+<div class="row">
+    <div class="col-md-3" id="asm">
+        <select id="command0" onchange="update()">
+            <option value="0">NOP</option>
+            <option value="1">LDA</option>
+            <option value="2">ADD</option>
+            <option value="3">SUB</option>
+            <option value="4">STA</option>
+            <option value="5">LDI</option>
+            <option value="6">JMP</option>
+            <option value="7">JIC</option>
+            <option value=15>HLT</option>
+        </select>
+        <input type="number" value="0" id="val0" onchange="update()">
+        <br>
+    </div>
+    <div class="col-md-9 text-start" id="bin">
+        <p class="text-break" id="demo"></p>
+        <br>
+        <p>This page is meant to be used alongside the STU from Super Testnet, an 8-bit CPU for BitVM. Use this page to create an assembly program on the left, then copy the array above to paste in the <a href="https://supertestnet.github.io/8bit-cpu-for-bitvm/#" target="_blank">STU here</a> with the button "Use Your Own".</p>
+        <p><a href="https://github.com/supertestnet/8bit-cpu-for-bitvm" target="_blank">Read more here</a> about the 8-bit CPU and writing assembly programs here.</p>
+        <br>
+        <h4>NOTES:</h4>
+        <p>Instead of using .org and .word to initialize a byte of RAM, use the NOP command and put a value up to 255 in the value for the byte slot you want to initialize. This has the same effect.</p>
+        <p>If the command is NOP, then the value has a maximum of 255. If the command is HLT, the value must be 0. Otherwise, the maximum value is 15. An error will not be thrown here, but it will fail to work on the STU.</p>
+        <p>Remember that the first slot is slot "0", and the final slot "15".</p>
+    </div>
+</div>
+
+
+<br>
+
+<script>
+var asm = document.getElementById('asm');
+var cmd = document.getElementById('command0');
+var val = document.getElementById('val0');
+for (let i=1; i<16; i++){
+  let clone1 = cmd.cloneNode(true);
+  let clone2 = val.cloneNode(true);
+  clone1.id = "command" + i;
+  clone2.id = "val" + i;
+  asm.appendChild(clone1);
+  asm.appendChild(clone2);
+  asm.innerHTML += '<br>';
+}
+
+function decToBin(N,p) { 
+    return (N >>> 0).toString(2).padStart(p, '0'); 
+}
+
+
+function update(){
+  let bin = new Array(35).fill(0);
+  for (let i=0; i<16; i++){
+    let c = document.getElementById("command" + i).value;
+    let v = document.getElementById("val" + i).value;
+    if (c == 0) {
+      for (each of decToBin(v,8)){
+        bin.push(each);
+      }
+    } else {
+      for (each of decToBin(c,4)){
+        bin.push(each);
+      }
+      for (each of decToBin(v,4)){
+        bin.push(each);
+      } 
+    }
+    //bin += decToBin(v);
+  }
+  document.getElementById("demo").innerHTML = '['+bin+']';
+}
+
+update();
+</script>
+
+</div>
+</body>
+</html>
