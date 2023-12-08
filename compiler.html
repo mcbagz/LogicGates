@@ -16,7 +16,7 @@
 
 <div class="row">
     <div class="col-md-3" id="asm">
-        <select id="command0" onchange="update()">
+        0<select id="command0" onchange="update()">
             <option value="0">NOP</option>
             <option value="1">LDA</option>
             <option value="2">ADD</option>
@@ -38,8 +38,9 @@
         <br>
         <h4>NOTES:</h4>
         <p>Instead of using .org and .word to initialize a byte of RAM, use the NOP command and put a value up to 255 in the value for the byte slot you want to initialize. This has the same effect.</p>
-        <p>If the command is NOP, then the value has a maximum of 255. If the command is HLT, the value must be 0. Otherwise, the maximum value is 15. An error will not be thrown here, but it will fail to work on the STU.</p>
+        <p>If the command is NOP, then the value has a maximum of 255. Otherwise, the maximum value is 15. An error will not be thrown here, but it will fail to work on the STU.</p>
         <p>Remember that the first slot is slot "0", and the final slot "15".</p>
+        <p>Here is a <a href="#">video tutorial</a> on using this tool.</p>
     </div>
 </div>
 
@@ -55,6 +56,7 @@ for (let i=1; i<16; i++){
   let clone2 = val.cloneNode(true);
   clone1.id = "command" + i;
   clone2.id = "val" + i;
+  asm.innerHTML += i;
   asm.appendChild(clone1);
   asm.appendChild(clone2);
   asm.innerHTML += '<br>';
